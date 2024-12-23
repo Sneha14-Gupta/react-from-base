@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>React from base</title>
+</head>
+
+<body>
+    <div id="app">
+    </div>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script type="text/babel">
+        const appEl = document.querySelector("#app");
+        const rootEl = ReactDOM.createRoot(appEl);
+        rootEl.render(<><App /></>);
+
+        function App() {
+            const [taskArr, setTaskArr] = React.useState([]);
+
+            const handleTaskUpdate = (value) => {
+                setTaskArr([...taskArr, value]);
+            }
+
+            return (
+                <div>
+                    <AddTask onSubmit={handleTaskUpdate} />
+                    <TaskList data={taskArr} />
+                </div>
+            );
+
+        }
+        function AddTask({ onSubmit }) {
+            const inputEl = React.useRef(null);
+            React.useEffect(() => {
+                inputEl.current.focus();
+            }, []);
+            return (
+                <form className="flex flex-col justify-center items-center gap-2" onSubmit={(e) => {
+                    e.preventDefault();
+                    onSubmit(inputEl.current.value);
+                    inputEl.current.value = "";
+                }}>
+                    <input type="text" placeholder="Add Task" ref={inputEl} id="" name="" className="border-2 border-black rounded-md p-2" />
+                    <button type="submit" className="bg-blue-500 text-white rounded-md p-2">Add Task</button>
+                </form>
+            );
+
+        }
+        function TaskList({ data }) {
+            console.log(data)
+            return (
+                <div><h1>Task List</h1></div>
+            );
+        }
+        function RenderTask() {
+
+        }
+        function SingleTask({ title }) {
+            return (
+                <div>
+                    <p>{title}</p>
+                    <button>Delete</button>
+                </div>
+            );
+
+        }
+
+    </script>
+
+</body>
+
+</html>
